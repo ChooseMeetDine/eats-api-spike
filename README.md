@@ -1,2 +1,2 @@
 # eats-api-spike
-Initial spike
+This is just a spike.

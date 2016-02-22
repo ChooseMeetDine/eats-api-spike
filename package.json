@@ -1,5 +1,5 @@
 {
-  "name": "eats-api",
+  "name": "eats-api-spike",
   "version": "0.1.0",
   "description": "An Express/SocketIO-application that functions as a backend API for the Eats client (webapp)",
   "main": "app.js",
@@ -10,7 +10,11 @@
     "aglio": "~2.2.0",
     "express": "~4.13.4",
     "foreman": "1.4.1",
-    "socket.io": "~1.4.5"
+    "socket.io": "~1.4.5",
+    "bluebird": "~3.0.6",
+    "body-parser": "~1.10.2",
+    "pg": "^4.4.0",
+    "proxyquire": "~1.7.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -29,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChooseMeetDine/eats-api.git"
+    "url": "https://github.com/ChooseMeetDine/eats-api-spike.git"
   },
   "keywords": [
     "eats",
@@ -42,5 +46,5 @@
   "bugs": {
     "url": "https://github.com/ChooseMeetDine/eats-api/issues"
   },
-  "homepage": "https://github.com/ChooseMeetDine/eats-api"
+  "homepage": "https://github.com/ChooseMeetDine/eats-api-spike"
 }

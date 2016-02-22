@@ -1,27 +1,35 @@
+var Promise = require('bluebird');
+var using = Promise.using;
+var postgres = require('../shared/postgres');
 var handler = {};
 
-handler.get = function(req) {
-  req = req + 1; //Confusing, right?
-
-  var restaurant = {
-    id: 'ABC123',
-    lat: 12.4123123,
-    lng: 56.43213,
-    name: 'Flera tusen och 3'
-  };
-
-  var socketData = restaurant;
-  var routeData = {
-    restaurants: [restaurant]
-  };
-
-  var response = {
-    route: routeData,
-    socket: socketData
-  };
-
-  return response;
+var getAllRestaurants = function() {
+  var query = 'select * from restaurants';
+  return using(postgres(), function(conn) {
+      return conn.queryAsync(query);
+    })
+    .catch(function(err) {
+      return Promise.reject(err);
+    })
+    .then(function(result) {
+      return result.rows[0];
+    });
 };
+
+handler.get = function(req) {
+  req = req; //not used yet, dont want linter error..
+
+  var response = {};
+
+  return getAllRestaurants()
+    .then(function(result) {
+      response.route = null;
+      response.socket = result;
+      return response;
+    });
+};
+
+
 
 
 module.exports = handler;

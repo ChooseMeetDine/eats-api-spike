@@ -1,30 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var restaurantHandler = require('../datahandlers/restaurants');
-var restaurantSocket = require('../socket/socket');
+var validator = require('../validators/restaurants');
 
-router.get('/', function(req, res) {
-  var response = restaurantHandler.get(req);
-
-  if (restaurantSocket.send(response.socket)) {
-    console.log('Sending data through HTTP... ' + JSON.stringify(response.route));
-    res.send(response.route);
-  } else {
-    res.send('ERROR: Socket could not send data');
-  }
+router.get('/', validator.validateGet, function(req, res) {
+  restaurantHandler
+    .get(req)
+    .then(function(response) {
+      var response = restaurantHandler.get(req);
+      res.send(response.route);
+    })
+    .catch(function(err) {
+      res.status(500).send(err);
+    });
 });
-
-router.get('/:id', function(req, res) {
-  var response = restaurantHandler.get(req);
-
-  res.send(response);
-});
-
-router.get('/updates', function(req, res) {
-  var response = restaurantHandler.get(req);
-
-  res.send(response);
-});
-
 
 module.exports = router;

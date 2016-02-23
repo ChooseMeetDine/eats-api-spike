@@ -4,5 +4,9 @@ restaurantValidator.validateGet = function(req, res, next) {
   console.log('Validating GET-request for restaurants...... done!');
   next();
 };
+restaurantValidator.validatePost = function(req, res, next) {
+  console.log('Validating POST-request for restaurants...... done!');
+  next();
+};
 
 module.exports = restaurantValidator;

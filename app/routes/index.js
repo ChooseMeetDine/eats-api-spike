@@ -3,7 +3,7 @@ var router = express.Router();
 var docs = require('./docs');
 var restaurants = require('./restaurants');
 var polls = require('./polls');
-var auth = require('./../middlewares/autorization');
+var auth = require('./../middlewares/authorization');
 var bodyParser = require('body-parser');
 
 // create application/json parser

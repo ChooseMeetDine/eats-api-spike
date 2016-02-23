@@ -4,7 +4,7 @@ var postgres = require('../shared/postgres');
 var handler = {};
 
 var getAllRestaurants = function() {
-  var query = 'select * from restaurants';
+  var query = 'select * from restaurant';
   return using(postgres(), function(conn) {
       return conn.queryAsync(query);
     })

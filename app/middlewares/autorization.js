@@ -1,6 +1,11 @@
 var auth = {};
 auth.ensureAuthenticated = function(req, res, next) {
 
+  // A THOUGHT:
+  // If the user is successfully authenticated, add userID to something like req.userID
+  // In this way, we can use req.userID as parameter for fields like 'creator' when inserting into
+  // DB. Sounds good, no?
+
   req = req;
   res = res;
   console.log('Authorizing....... done!');

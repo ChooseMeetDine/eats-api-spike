@@ -1,7 +1,8 @@
+/**
 var io = require('socket.io')();
 var app = {};
 var socket;
-/**
+
  *
  *	All kod här i är troligen riktig skräpkod som inte ens är nära på att fungera.
  *	Men det är för att jag bara satt upp filen så att den som vill sitta med det bara behöver
@@ -11,7 +12,7 @@ var socket;
  *
  */
 
-
+/*
 app.openConnection = function(socketData) {
 
   if (!socket) {
@@ -39,3 +40,12 @@ app.send = function(socketData) {
 };
 
 module.exports = app;
+*/
+
+var io = require('socket.io')();
+
+var nsp = io.of('/votes');
+nsp.on('connection', function (socket) {
+  console.log('someone connected'):
+});
+nsp.emit('hi', 'everyone!');

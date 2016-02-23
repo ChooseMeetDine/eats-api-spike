@@ -12,7 +12,7 @@ var getAllRestaurants = function() {
       return Promise.reject(err);
     })
     .then(function(result) {
-      return result.rows[0];
+      return result.rows;
     });
 };
 
@@ -23,8 +23,8 @@ handler.get = function(req) {
 
   return getAllRestaurants()
     .then(function(result) {
-      response.route = null;
-      response.socket = result;
+      response.route = result;
+      response.socket = null;
       return response;
     });
 };

@@ -7,7 +7,6 @@ router.get('/', validator.validateGet, function(req, res) {
   restaurantHandler
     .get(req)
     .then(function(response) {
-      var response = restaurantHandler.get(req);
       res.send(response.route);
     })
     .catch(function(err) {

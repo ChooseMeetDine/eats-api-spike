@@ -18,9 +18,9 @@ var getAllPolls = function() {
 
 var createPoll = function(req) {
   var parameters = req.body; //Maybe not this exactly?
-
   var query = 'INSERT INTO poll (name, creator)' +
-    'VALUES (' + parameters.name + ', ' + req.user + ')';
+    'VALUES (' + parameters + ', ' + req.user + ')';
+
 
   return using(postgres(), function(conn) {
       return conn.queryAsync(query);
@@ -67,7 +67,7 @@ handler.get = function(req) {
 handler.post = function(req) {
   var response = {};
 
-  return createPoll(req)()
+  return createPoll(req)
     .then(function(result) {
       response.route = result;
       response.socket = result;
@@ -78,7 +78,7 @@ handler.post = function(req) {
 handler.put = function(req) {
   var response = {};
 
-  return updatePoll(req)()
+  return updatePoll(req)
     .then(function(result) {
       response.route = result;
       response.socket = result;

@@ -8,13 +8,14 @@
   },
   "dependencies": {
     "aglio": "~2.2.0",
-    "express": "~4.13.4",
-    "foreman": "1.4.1",
-    "socket.io": "~1.4.5",
     "bluebird": "~3.0.6",
     "body-parser": "~1.10.2",
+    "express": "~4.13.4",
+    "foreman": "1.4.1",
+    "knex": "^0.10.0",
     "pg": "^4.4.0",
-    "proxyquire": "~1.7.3"
+    "proxyquire": "~1.7.3",
+    "socket.io": "~1.4.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",

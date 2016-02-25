@@ -6,13 +6,17 @@ var users = require('./users');
 var polls = require('./polls');
 var auth = require('./../middlewares/authorization');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 // create application/json parser
 var jsonParser = bodyParser.json();
 
-var root = function(req, res) {
+var root = function (req, res) {
+  /**
   res.send('<p>Du gick till rooten i API:et och här är env-variabeln MONGO_DB_USER i .env: ' +
     process.env.MONGO_DB_USER + '</p>');
+    */
+  res.sendFile(path.join(__dirname, '../../public/', 'index.html'));
 };
 
 

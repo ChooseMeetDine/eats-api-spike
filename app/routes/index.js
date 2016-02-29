@@ -24,6 +24,10 @@ router.get('/', root);
 router.use('/docs', docs);
 router.use('/polls', auth.ensureAuthenticated, jsonParser, polls);
 router.use('/restaurants', auth.ensureAuthenticated, jsonParser, restaurants);
+<<<<<<< HEAD
+router.use('/users', auth.ensureAuthenticated, jsonParser, users);
+=======
 router.use('/users', users);
+>>>>>>> 17d4b9cd88aaf2e246a607c9ced50e40bef4df1c
 
 module.exports = router;

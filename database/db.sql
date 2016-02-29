@@ -65,7 +65,7 @@ CREATE TABLE public.poll (
     expires timestamp  NOT NULL,
     nice_id varchar(255)  NOT NULL,
     "group" int  NULL,
-    fixed_vote boolean  NOT NULL,
+    allow_new_restaurants boolean  NOT NULL default true,
     CONSTRAINT poll_pk PRIMARY KEY (id)
 );
 
@@ -155,13 +155,14 @@ CREATE TABLE public.status (
 CREATE TABLE public."user" (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
     name varchar(255)  NOT NULL,
-    email varchar(255)  NOT NULL,
+    email varchar(255)  NULL,
     photo varchar(1000)  NULL,
     password varchar(1000)  NOT NULL,
     last_login timestamp  NOT NULL,
     registration_date timestamp  NOT NULL,
     admin boolean  NOT NULL DEFAULT false,
-    phone varchar(30)  NOT NULL,
+    phone varchar(30)  NULL,
+    anon boolean  NOT NULL DEFAULT false,
     CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
@@ -381,7 +382,6 @@ ALTER TABLE public.vote ADD CONSTRAINT vote_user
 ;
 
 
-
 -- Insert Users
 INSERT INTO public."user" (id, name, email, password, last_login, registration_date, admin, phone)
 VALUES(10, 'elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-123'),
@@ -423,7 +423,7 @@ VALUES(14, 10),
       (24, 30),
       (24, 40);
 
-INSERT INTO public.poll (id, creator, name, created, expires, nice_id, "group", fixed_vote)
+INSERT INTO public.poll (id, creator, name, created, expires, nice_id, "group", allow_new_restaurants)
 VALUES(15, 10, 'Rösta på burgare, tack!', now(), now(), 'ABC123', null, false),
       (25, 30, 'Hungrig..', now(), now(), 'ABC321', 24, false);
 

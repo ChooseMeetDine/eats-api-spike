@@ -32,7 +32,7 @@ CREATE TABLE poll (
     expires timestamp  NOT NULL,
     nice_id varchar(255)  NOT NULL,
     "group" int  NULL,
-    fixed_vote boolean  NOT NULL,
+    allow_new_restaurants boolean  NOT NULL default true,
     CONSTRAINT poll_pk PRIMARY KEY (id)
 );
 
@@ -122,13 +122,14 @@ CREATE TABLE status (
 CREATE TABLE "user" (
     id bigserial  NOT NULL,
     name varchar(255)  NOT NULL,
-    email varchar(255)  NOT NULL,
+    email varchar(255)  NULL,
     photo varchar(1000)  NULL,
     password varchar(1000)  NOT NULL,
     last_login timestamp  NOT NULL,
     registration_date timestamp  NOT NULL,
     admin boolean  NOT NULL DEFAULT false,
-    phone varchar(30)  NOT NULL,
+    phone varchar(30)  NULL,
+    anon boolean  NOT NULL DEFAULT false,
     CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
@@ -347,7 +348,6 @@ ALTER TABLE vote ADD CONSTRAINT vote_user
 ;
 
 
-
 -- Insert Users
 INSERT INTO "user" (name, email, password, last_login, registration_date, admin, phone)
 VALUES('elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-123'),
@@ -389,7 +389,7 @@ VALUES(1, 1),
       (2, 3),
       (2, 4);
 
-INSERT INTO poll (creator, name, created, expires, nice_id, "group", fixed_vote)
+INSERT INTO poll (creator, name, created, expires, nice_id, "group", allow_new_restaurants)
 VALUES(1, 'Rösta på burgare, tack!', now(), now(), 'ABC123', null, false),
       (3, 'Hungrig..', now(), now(), 'ABC321', 2, false);
 

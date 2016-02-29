@@ -6,6 +6,13 @@ var connection = require('./app/socket/socket');
 
 app.use('/', routes);
 
+app.get('/latlong', function (req, res) {
+  res.json({
+    lat: 55.5867899,
+    long: 13.0050059
+  });
+});
+
 connection.inits(io);
 
 var port = process.env.PORT || 3001;

@@ -32,7 +32,7 @@ CREATE TABLE poll (
     expires timestamp  NOT NULL,
     nice_id varchar(255)  NOT NULL,
     "group" int  NULL,
-    fixed_vote boolean  NOT NULL,
+    allow_new_restaurants boolean  NOT NULL default true,
     CONSTRAINT poll_pk PRIMARY KEY (id)
 );
 
@@ -389,7 +389,7 @@ VALUES(1, 1),
       (2, 3),
       (2, 4);
 
-INSERT INTO poll (creator, name, created, expires, nice_id, "group", fixed_vote)
+INSERT INTO poll (creator, name, created, expires, nice_id, "group", allow_new_restaurants)
 VALUES(1, 'Rösta på burgare, tack!', now(), now(), 'ABC123', null, false),
       (3, 'Hungrig..', now(), now(), 'ABC321', 2, false);
 

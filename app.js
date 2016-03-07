@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 
 app.use('/', routes);
 
-app.get('/latlong', function (req, res) {
+app.get('/latlong', function(req, res) {
   res.json({
     lat: 55.5867899,
     long: 13.0050059

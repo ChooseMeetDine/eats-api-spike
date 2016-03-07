@@ -12,7 +12,7 @@ var pg = require('knex')({
   searchPath: 'knex,public',
   pool: {
     min: 1,
-    max: 50
+    max: 20
   }
 });
 

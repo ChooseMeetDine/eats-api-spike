@@ -43,7 +43,7 @@ CREATE TABLE public.category (
 -- Table: "group"
 CREATE TABLE public."group" (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
-    creator int  NOT NULL,
+    creator_id bigint  NOT NULL,
     created timestamp  NOT NULL,
     name varchar(255)  NOT NULL,
     CONSTRAINT group_pk PRIMARY KEY (id)
@@ -51,38 +51,37 @@ CREATE TABLE public."group" (
 
 -- Table: group_users
 CREATE TABLE public.group_users (
-    user_id int  NOT NULL,
-    group_id int  NOT NULL,
+    user_id bigint  NOT NULL,
+    group_id bigint  NOT NULL,
     CONSTRAINT group_users_pk PRIMARY KEY (user_id,group_id)
 );
 
 -- Table: poll
 CREATE TABLE public.poll (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
-    creator int  NOT NULL,
+    creator_id bigint  NOT NULL,
     name varchar(255)  NOT NULL,
     created timestamp  NOT NULL,
     expires timestamp  NOT NULL,
-    nice_id varchar(255)  NOT NULL,
-    "group" int  NULL,
+    group_id bigint  NULL,
     allow_new_restaurants boolean  NOT NULL default true,
     CONSTRAINT poll_pk PRIMARY KEY (id)
 );
 
 -- Table: poll_users
 CREATE TABLE public.poll_users (
-    "user" int  NOT NULL,
-    poll int  NOT NULL,
+    user_id bigint  NOT NULL,
+    poll_id bigint  NOT NULL,
     joined timestamp  NOT NULL,
-    CONSTRAINT poll_users_pk PRIMARY KEY ("user",poll)
+    CONSTRAINT poll_users_pk PRIMARY KEY (user_id, poll_id)
 );
 
 -- Table: rating
 CREATE TABLE public.rating (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
     rating smallint  NOT NULL,
-    restaurant int  NOT NULL,
-    rater int  NOT NULL,
+    restaurant_id bigint  NOT NULL,
+    rater_id bigint  NOT NULL,
     created timestamp  NOT NULL,
     CONSTRAINT rating_pk PRIMARY KEY (id)
 );
@@ -96,7 +95,7 @@ CREATE TABLE public.restaurant (
     photo varchar(1000)  NULL,
     number_votes int  NOT NULL DEFAULT 0,
     number_won_votes int  NOT NULL DEFAULT 0,
-    creator int  NOT NULL,
+    creator_id bigint  NOT NULL,
     temporary boolean  NOT NULL,
     created timestamp  NOT NULL,
     price_rate int  NOT NULL,
@@ -107,25 +106,25 @@ CREATE TABLE public.restaurant (
 
 -- Table: restaurant_categories
 CREATE TABLE public.restaurant_categories (
-    category_id int  NOT NULL,
-    restaurant_id int  NOT NULL,
+    category_id bigint  NOT NULL,
+    restaurant_id bigint  NOT NULL,
     CONSTRAINT restaurant_categories_pk PRIMARY KEY (category_id,restaurant_id)
 );
 
 
 -- Table: restaurant_polls
 CREATE TABLE public.restaurant_polls (
-    restaurant int  NOT NULL,
-    poll int  NOT NULL,
-    CONSTRAINT restaurant_polls_pk PRIMARY KEY (restaurant,poll)
+    restaurant_id bigint  NOT NULL,
+    poll_id bigint  NOT NULL,
+    CONSTRAINT restaurant_polls_pk PRIMARY KEY (restaurant_id, poll_id)
 );
 
 
 -- Table: restaurant_update
 CREATE TABLE public.restaurant_update (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
-    restaurant_id int  NOT NULL,
-    user_id int  NOT NULL,
+    restaurant_id bigint  NOT NULL,
+    user_id bigint  NOT NULL,
     name varchar(255)  NULL,
     lat decimal(53,50)  NULL,
     lng decimal(53,50)  NULL,
@@ -139,8 +138,8 @@ CREATE TABLE public.restaurant_update (
 
 -- Table: restaurant_update_categories
 CREATE TABLE public.restaurant_update_categories (
-    restaurant_update int  NOT NULL,
-    category_id int  NOT NULL
+    restaurant_update_id bigint  NOT NULL,
+    category_id bigint  NOT NULL
 );
 
 
@@ -169,9 +168,9 @@ CREATE TABLE public."user" (
 -- Table: vote
 CREATE TABLE public.vote (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
-    user_id int  NOT NULL,
-    poll_id int  NOT NULL,
-    restaurant_id int  NOT NULL,
+    user_id bigint  NOT NULL,
+    poll_id bigint  NOT NULL,
+    restaurant_id bigint  NOT NULL,
     created timestamp  NOT NULL,
     updated timestamp  NOT NULL,
     CONSTRAINT vote_pk PRIMARY KEY (id)
@@ -191,7 +190,7 @@ ALTER TABLE public.restaurant_update_categories ADD CONSTRAINT Copy_of_restauran
 -- Reference:  Copy_of_restaurant_categories_restaurant_updates (table: restaurant_update_categories)
 
 ALTER TABLE public.restaurant_update_categories ADD CONSTRAINT Copy_of_restaurant_categories_restaurant_updates
-    FOREIGN KEY (restaurant_update)
+    FOREIGN KEY (restaurant_update_id)
     REFERENCES public.restaurant_update (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -218,7 +217,7 @@ ALTER TABLE public.restaurant_categories ADD CONSTRAINT category_map_restaurant
 -- Reference:  group_user (table: "group")
 
 ALTER TABLE public."group" ADD CONSTRAINT group_user
-    FOREIGN KEY (creator)
+    FOREIGN KEY (creator_id)
     REFERENCES public."user" (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -245,7 +244,7 @@ ALTER TABLE public.group_users ADD CONSTRAINT group_users_user
 -- Reference:  poll_group (table: poll)
 
 ALTER TABLE public.poll ADD CONSTRAINT poll_group
-    FOREIGN KEY ("group")
+    FOREIGN KEY (group_id)
     REFERENCES public."group" (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -254,7 +253,7 @@ ALTER TABLE public.poll ADD CONSTRAINT poll_group
 -- Reference:  poll_user (table: poll)
 
 ALTER TABLE public.poll ADD CONSTRAINT poll_user
-    FOREIGN KEY (creator)
+    FOREIGN KEY (creator_id)
     REFERENCES public."user" (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -263,7 +262,7 @@ ALTER TABLE public.poll ADD CONSTRAINT poll_user
 -- Reference:  poll_users_poll (table: poll_users)
 
 ALTER TABLE public.poll_users ADD CONSTRAINT poll_users_poll
-    FOREIGN KEY (poll)
+    FOREIGN KEY (poll_id)
     REFERENCES public.poll (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -272,7 +271,7 @@ ALTER TABLE public.poll_users ADD CONSTRAINT poll_users_poll
 -- Reference:  poll_users_user (table: poll_users)
 
 ALTER TABLE public.poll_users ADD CONSTRAINT poll_users_user
-    FOREIGN KEY ("user")
+    FOREIGN KEY (user_id)
     REFERENCES public."user" (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -281,7 +280,7 @@ ALTER TABLE public.poll_users ADD CONSTRAINT poll_users_user
 -- Reference:  rate_restaurant (table: rating)
 
 ALTER TABLE public.rating ADD CONSTRAINT rate_restaurant
-    FOREIGN KEY (restaurant)
+    FOREIGN KEY (restaurant_id)
     REFERENCES public.restaurant (id)
     ON DELETE  CASCADE
     ON UPDATE  CASCADE
@@ -292,7 +291,7 @@ ALTER TABLE public.rating ADD CONSTRAINT rate_restaurant
 -- Reference:  rate_user (table: rating)
 
 ALTER TABLE public.rating ADD CONSTRAINT rate_user
-    FOREIGN KEY (rater)
+    FOREIGN KEY (rater_id)
     REFERENCES public."user" (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -301,7 +300,7 @@ ALTER TABLE public.rating ADD CONSTRAINT rate_user
 -- Reference:  restaurant_polls_poll (table: restaurant_polls)
 
 ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_poll
-    FOREIGN KEY (poll)
+    FOREIGN KEY (poll_id)
     REFERENCES public.poll (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -310,7 +309,7 @@ ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_poll
 -- Reference:  restaurant_polls_restaurant (table: restaurant_polls)
 
 ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_restaurant
-    FOREIGN KEY (restaurant)
+    FOREIGN KEY (restaurant_id)
     REFERENCES public.restaurant (id)
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
@@ -346,7 +345,7 @@ ALTER TABLE public.restaurant_update ADD CONSTRAINT restaurant_updates_user
 -- Reference:  restaurant_user (table: restaurant)
 
 ALTER TABLE public.restaurant ADD CONSTRAINT restaurant_user
-    FOREIGN KEY (creator)
+    FOREIGN KEY (creator_id)
     REFERENCES public."user" (id)
     ON DELETE  SET NULL
     ON UPDATE  SET NULL
@@ -386,10 +385,10 @@ ALTER TABLE public.vote ADD CONSTRAINT vote_user
 INSERT INTO public."user" (id, name, email, password, last_login, registration_date, admin, phone)
 VALUES(10, 'elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-123'),
       (20, 'davve', 'davve@mail.se', 'password123', now(), now(), true, '0123-124'),
-      (30, 'musse', 'musse@mail.se', 'password123', now(), now(), false, '0123-125'),
+      (30, 'musse', 'fresh_musti@hotmail.com', 'password123', now(), now(), false, '0123-125'),
       (40, 'natti', 'natti@mail.se', 'password123', now(), now(), true, '0123-126');
 
-INSERT INTO public.restaurant (id, name, lat, lng, creator, created, price_rate, temporary)
+INSERT INTO public.restaurant (id, name, lat, lng, creator_id, created, price_rate, temporary)
 VALUES(11, 'Tusen och 22', 12.125123, 56.432432, 10, now(), 1, false),
       (21, 'Surf chakk', 12.133123, 56.432434, 30, now(), 2, false),
       (31, 'Kaffestället', 12.123623, 56.432232, 30, now(), 5, false),
@@ -412,7 +411,7 @@ VALUES(13,11),
       (43,51),
       (53,51);
 
-INSERT INTO public."group" (id, creator, created, name)
+INSERT INTO public."group" (id, creator_id, created, name)
 VALUES(14, 10, now(), 'Grupp 1'),
       (24, 30, now(), 'Grupp 2');
 
@@ -423,12 +422,12 @@ VALUES(14, 10),
       (24, 30),
       (24, 40);
 
-INSERT INTO public.poll (id, creator, name, created, expires, nice_id, "group", allow_new_restaurants)
-VALUES(15, 10, 'Rösta på burgare, tack!', now(), now(), 'ABC123', null, false),
-      (25, 30, 'Hungrig..', now(), now(), 'ABC321', 24, false);
+INSERT INTO public.poll (id, creator_id, name, created, expires, group_id, allow_new_restaurants)
+VALUES(15, 10, 'Rösta på burgare, tack!', now(), now(), null, false),
+      (25, 30, 'Hungrig..', now(), now(), 24, false);
 
 
-INSERT INTO public.poll_users ("user", poll, joined)
+INSERT INTO public.poll_users (user_id, poll_id, joined)
 VALUES(10, 15, now()),
       (20, 15, now()),
       (20, 25, now()),
@@ -436,11 +435,11 @@ VALUES(10, 15, now()),
       (40, 25, now());
 
 
-INSERT INTO public.rating (id, rating, restaurant, rater, created)
+INSERT INTO public.rating (id, rating, restaurant_id, rater_id, created)
 VALUES(16, 5,11,10,now()),
       (26, 1,41,20,now());
 
-INSERT INTO public.restaurant_polls (restaurant, poll)
+INSERT INTO public.restaurant_polls (restaurant_id, poll_id)
 VALUES(11,15),
       (21,15),
       (41,25),
@@ -457,7 +456,7 @@ VALUES(17, 11, 10, 'Tusen och 23', 'Ni har stavat fel', 'PENDING', now(), now())
       (27, 21, 10, 'Turf Smack', 'Ni har stavat fel på denna också', 'PENDING', now(), now());
 
 
-INSERT INTO public.restaurant_update_categories (restaurant_update, category_id)
+INSERT INTO public.restaurant_update_categories (restaurant_update_id, category_id)
 VALUES(17, 33);
 
 INSERT INTO public.vote (id, user_id, poll_id, restaurant_id, created, updated)

@@ -44,7 +44,7 @@ CREATE TABLE public.category (
 CREATE TABLE public."group" (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
     creator_id bigint  NOT NULL,
-    created timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
     name varchar(255)  NOT NULL,
     CONSTRAINT group_pk PRIMARY KEY (id)
 );
@@ -61,8 +61,8 @@ CREATE TABLE public.poll (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
     creator_id bigint  NOT NULL,
     name varchar(255)  NOT NULL,
-    created timestamp  NOT NULL,
-    expires timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
+    expires timestamp with time zone  NOT NULL,
     group_id bigint  NULL,
     allow_new_restaurants boolean  NOT NULL default true,
     CONSTRAINT poll_pk PRIMARY KEY (id)
@@ -72,7 +72,7 @@ CREATE TABLE public.poll (
 CREATE TABLE public.poll_users (
     user_id bigint  NOT NULL,
     poll_id bigint  NOT NULL,
-    joined timestamp  NOT NULL,
+    joined timestamp with time zone  NOT NULL,
     CONSTRAINT poll_users_pk PRIMARY KEY (user_id, poll_id)
 );
 
@@ -82,7 +82,7 @@ CREATE TABLE public.rating (
     rating smallint  NOT NULL,
     restaurant_id bigint  NOT NULL,
     rater_id bigint  NOT NULL,
-    created timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
     CONSTRAINT rating_pk PRIMARY KEY (id)
 );
 
@@ -97,7 +97,7 @@ CREATE TABLE public.restaurant (
     number_won_votes int  NOT NULL DEFAULT 0,
     creator_id bigint  NOT NULL,
     temporary boolean  NOT NULL,
-    created timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
     price_rate int  NOT NULL,
     lat decimal(53,50)  NULL,
     CONSTRAINT restaurant_pk PRIMARY KEY (id)
@@ -130,8 +130,8 @@ CREATE TABLE public.restaurant_update (
     lng decimal(53,50)  NULL,
     reason text  NOT NULL,
     status varchar(255)  NULL,
-    created timestamp  NOT NULL,
-    status_changed timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
+    status_changed timestamp with time zone  NOT NULL,
     CONSTRAINT restaurant_update_pk PRIMARY KEY (id)
 );
 
@@ -157,8 +157,8 @@ CREATE TABLE public."user" (
     email varchar(255)  NULL,
     photo varchar(1000)  NULL,
     password varchar(1000)  NOT NULL,
-    last_login timestamp  NOT NULL,
-    registration_date timestamp  NOT NULL,
+    last_login timestamp with time zone  NOT NULL,
+    registration_date timestamp with time zone  NOT NULL,
     admin boolean  NOT NULL DEFAULT false,
     phone varchar(30)  NULL,
     anon boolean  NOT NULL DEFAULT false,
@@ -171,8 +171,8 @@ CREATE TABLE public.vote (
     user_id bigint  NOT NULL,
     poll_id bigint  NOT NULL,
     restaurant_id bigint  NOT NULL,
-    created timestamp  NOT NULL,
-    updated timestamp  NOT NULL,
+    created timestamp with time zone  NOT NULL,
+    updated timestamp with time zone  NOT NULL,
     CONSTRAINT vote_pk PRIMARY KEY (id)
 );
 

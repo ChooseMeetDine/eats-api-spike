@@ -32,6 +32,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql strict immutable;
 
+CREATE TYPE restaurant_status AS ENUM ('unexamined', 'accepted', 'denied');
+
 -- tables
 -- Table: category
 CREATE TABLE public.category (
@@ -100,6 +102,7 @@ CREATE TABLE public.restaurant (
     created timestamp with time zone  NOT NULL,
     price_rate int  NOT NULL,
     lat decimal(53,50)  NULL,
+    status restaurant_status DEFAULT 'unexamined',
     CONSTRAINT restaurant_pk PRIMARY KEY (id)
 );
 
@@ -388,12 +391,12 @@ VALUES(10, 'elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-1
       (30, 'musse', 'fresh_musti@hotmail.com', 'password123', now(), now(), false, '0123-125'),
       (40, 'natti', 'natti@mail.se', 'password123', now(), now(), true, '0123-126');
 
-INSERT INTO public.restaurant (id, name, lat, lng, creator_id, created, price_rate, temporary)
-VALUES(11, 'Tusen och 22', 12.125123, 56.432432, 10, now(), 1, false),
-      (21, 'Surf chakk', 12.133123, 56.432434, 30, now(), 2, false),
-      (31, 'Kaffestället', 12.123623, 56.432232, 30, now(), 5, false),
-      (41, 'Det där stället med bra mat!', 12.123121, 56.435432, 40, now(), 2, false),
-      (51, 'Wiggos bar', 12.123121, 56.435432, 20, now(), 3, false);
+INSERT INTO public.restaurant (id, name, lat, lng, creator_id, created, price_rate, temporary, status)
+VALUES(11, 'Tusen och 22', 12.125123, 56.432432, 10, now(), 1, false, 'accepted'),
+      (21, 'Surf chakk', 12.133123, 56.432434, 30, now(), 2, false, 'accepted'),
+      (31, 'Kaffestället', 12.123623, 56.432232, 30, now(), 5, false, 'accepted'),
+      (41, 'Det där stället med bra mat!', 12.123121, 56.435432, 40, now(), 2, false, 'accepted'),
+      (51, 'Wiggos bar', 12.123121, 56.435432, 20, now(), 3, false, 'accepted');
 
 
 INSERT INTO public.category (id, type)

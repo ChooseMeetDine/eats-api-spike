@@ -3,22 +3,54 @@
   <head>
     <meta charset="utf-8">
     <title>TESTING SOCKET IO</title>
+    <link rel="stylesheet" href="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.css" />
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <!--  http://blog.yesmeck.com/jquery-jsonview/ -->
+    <script src="https://rawgithub.com/yesmeck/jquery-jsonview/master/dist/jquery.jsonview.js"></script>
     <script>
         $(document).ready(function(){
-          var socket = io();
+          $('#collapse-btn').on('click', function() {
+            $('#json').JSONView('collapse');
+          });
 
-          socket.on('id001', function(data){
+          $('#expand-btn').on('click', function() {
+            $('#json').JSONView('expand');
+          });
+
+          $('#toggle-btn').on('click', function() {
+            $('#json').JSONView('toggle');
+          });
+
+          $('#toggle-level1-btn').on('click', function() {
+            $('#json').JSONView('toggle', 1);
+          });
+
+          $('#toggle-level2-btn').on('click', function() {
+            $('#json').JSONView('toggle', 2);
+          });
+
+          var socket = io('http://localhost:5000');
+
+          socket.on('15', function(data){
             console.log(data);
-            $('#text').html(data);
+            $('#name').html(data.data.attributes.name);
+            $('#json').JSONView(data);
           });
         });
     </script>
   </head>
   <body>
-      <h1>TESTING SOCKET IO</h1>
-      <p id="text"></p>
-      <p id="room"></p>
+      <h1>Testning av SocketIO - lyssnar på poll-ID '15'</h1>
+
+      <p id="#name">(här ska restaurangnamnet komma)</p>
+
+      <button id="collapse-btn">Collapse</button>
+      <button id="expand-btn">Expand</button>
+      <button id="toggle-btn">Toggle</button>
+      <button id="toggle-level1-btn">Toggle level1</button>
+      <button id="toggle-level2-btn">Toggle level2</button>
+
+      <div id="json"></div>
   </body>
 </html>

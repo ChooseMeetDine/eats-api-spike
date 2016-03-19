@@ -30,7 +30,7 @@
             $('#json').JSONView('toggle', 2);
           });
 
-          var socket = io('http://localhost:5000');
+          var socket = io('http://' + process.env.HOST_ADDRESS + ':3000');
 
           socket.on('15', function(data){
             console.log(data);

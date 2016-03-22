@@ -385,11 +385,14 @@ ALTER TABLE public.vote ADD CONSTRAINT vote_user
 
 
 -- Insert Users
-INSERT INTO public."user" (id, name, email, password, last_login, registration_date, admin, phone)
-VALUES(10, 'elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-123'),
-      (20, 'davve', 'davve@mail.se', 'password123', now(), now(), true, '0123-124'),
-      (30, 'musse', 'fresh_musti@hotmail.com', 'password123', now(), now(), false, '0123-125'),
-      (40, 'natti', 'natti@mail.se', 'password123', now(), now(), true, '0123-126');
+INSERT INTO public."user" (id, name, email, password, last_login, registration_date, admin, phone, anon)
+VALUES(10, 'elias', 'elias@mail.se', 'password123', now(), now(), false, '0123-123', false),
+      (20, 'davve', 'davve@mail.se', 'password123', now(), now(), true, '0123-124', false),
+      (30, 'musse', 'fresh_musti@hotmail.com', 'password123', now(), now(), false, '0123-125', false),
+      (40, 'natti', 'natti@mail.se', 'password123', now(), now(), true, '0123-126', false),
+      (50, 'admin', 'admin@mail.se', 'password123', now(), now(), true, '0123-126', false),
+      (60, 'anonymous', 'anonymous@mail.se', 'password123', now(), now(), false, '0123-126', true),
+      (70, 'standard', 'standard@mail.se', 'password123', now(), now(), false, '0123-126', false);
 
 INSERT INTO public.restaurant (id, name, lat, lng, creator_id, created, price_rate, temporary, status)
 VALUES(11, 'Tusen och 22', 12.125123, 56.432432, 10, now(), 1, false, 'accepted'),

@@ -213,6 +213,7 @@ ALTER TABLE public.restaurant_categories ADD CONSTRAINT category_map_category
 ALTER TABLE public.restaurant_categories ADD CONSTRAINT category_map_restaurant
     FOREIGN KEY (restaurant_id)
     REFERENCES public.restaurant (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;

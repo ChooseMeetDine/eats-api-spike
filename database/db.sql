@@ -350,8 +350,6 @@ ALTER TABLE public.restaurant_update ADD CONSTRAINT restaurant_updates_user
 ALTER TABLE public.restaurant ADD CONSTRAINT restaurant_user
     FOREIGN KEY (creator_id)
     REFERENCES public."user" (id)
-    ON DELETE  SET NULL
-    ON UPDATE  SET NULL
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;

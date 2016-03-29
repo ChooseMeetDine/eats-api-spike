@@ -100,7 +100,7 @@ CREATE TABLE public.restaurant (
     creator_id bigint  NOT NULL,
     temporary boolean  NOT NULL,
     created timestamp with time zone  NOT NULL,
-    price_rate int  NOT NULL,
+    price_rate int  NULL,
     lat decimal(53,50)  NULL,
     status restaurant_status DEFAULT 'unexamined',
     CONSTRAINT restaurant_pk PRIMARY KEY (id)

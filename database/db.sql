@@ -92,7 +92,7 @@ CREATE TABLE public.rating (
 CREATE TABLE public.restaurant (
     id bigint  NOT NULL DEFAULT pseudo_encrypt50(nextval('public.global_id_seq')),
     name varchar(255)  NOT NULL,
-    lng decimal(53,50)  NULL,
+    lng decimal(10,7)  NULL,
     info text  NULL,
     photo varchar(1000)  NULL,
     number_votes int  NOT NULL DEFAULT 0,
@@ -101,7 +101,7 @@ CREATE TABLE public.restaurant (
     temporary boolean  NOT NULL,
     created timestamp with time zone  NOT NULL,
     price_rate int  NULL,
-    lat decimal(53,50)  NULL,
+    lat decimal(10,7)  NULL,
     status restaurant_status DEFAULT 'unexamined',
     CONSTRAINT restaurant_pk PRIMARY KEY (id)
 );

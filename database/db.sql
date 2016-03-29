@@ -159,7 +159,7 @@ CREATE TABLE public."user" (
     name varchar(255)  NOT NULL,
     email varchar(255)  NULL,
     photo varchar(1000)  NULL,
-    password varchar(1000)  NOT NULL,
+    password varchar(1000)  NULL,
     last_login timestamp with time zone  NOT NULL,
     registration_date timestamp with time zone  NOT NULL,
     admin boolean  NOT NULL DEFAULT false,

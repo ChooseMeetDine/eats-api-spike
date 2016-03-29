@@ -204,6 +204,7 @@ ALTER TABLE public.restaurant_update_categories ADD CONSTRAINT Copy_of_restauran
 ALTER TABLE public.restaurant_categories ADD CONSTRAINT category_map_category
     FOREIGN KEY (category_id)
     REFERENCES public.category (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
@@ -232,6 +233,7 @@ ALTER TABLE public."group" ADD CONSTRAINT group_user
 ALTER TABLE public.group_users ADD CONSTRAINT group_users_group
     FOREIGN KEY (group_id)
     REFERENCES public."group" (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
@@ -268,6 +270,7 @@ ALTER TABLE public.poll ADD CONSTRAINT poll_user
 ALTER TABLE public.poll_users ADD CONSTRAINT poll_users_poll
     FOREIGN KEY (poll_id)
     REFERENCES public.poll (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
@@ -306,6 +309,7 @@ ALTER TABLE public.rating ADD CONSTRAINT rate_user
 ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_poll
     FOREIGN KEY (poll_id)
     REFERENCES public.poll (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
@@ -315,6 +319,7 @@ ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_poll
 ALTER TABLE public.restaurant_polls ADD CONSTRAINT restaurant_polls_restaurant
     FOREIGN KEY (restaurant_id)
     REFERENCES public.restaurant (id)
+    ON UPDATE NO ACTION ON DELETE CASCADE
     NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
